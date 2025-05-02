@@ -8,6 +8,7 @@
 #include <unordered_map>  // for seperating and comparing
 #include <map>            // added for multimap sorting
 using namespace std;
+
 namespace logWorkout {
 
 // Definitions for the externals declared in the header:
@@ -15,6 +16,25 @@ vector<string> activities;            // creating vector for each activity
 vector<string> dates;                 //                          Date
 vector<double> durations;             //                          durations
 unordered_map<string, double> workoutMap; //                      leaderboard
+
+// basic date check function
+bool isValidDate(string date) {
+    if (date.length() != 10 || date[4] != '-' || date[7] != '-') return false;
+
+    string year = date.substr(0, 4);   //  year
+    string month = date.substr(5, 2);  //  month
+    string day = date.substr(8, 2);    //  day
+
+    // checking that all characters are digits
+    for (char ch : year + month + day) {
+        if (!isdigit(ch)) return false;
+    }
+    int y = stoi(year);
+    int m = stoi(month);
+    int d = stoi(day);
+    if (y >= 2025 || m < 1 || m > 12 || d < 1 || d > 31) return false;
+    return true;
+}
 
 // for reacording workout
 void logWorkout() {
@@ -25,18 +45,31 @@ void logWorkout() {
     while ((choice == 'y' || choice == 'Y') && activities.size() < MAX_WORKOUTS) {
         cout << setw(10) << ""<< setfill('=') << setw(40) << "" << setfill(' ') << endl;
 
-        cout << setw(10) << "" << "Enter workout activity: ";
+        // workout activity check
         string activity;
-        getline(cin, activity);   // used this for spaces
+        do {
+            cout << setw(10) << "" << "Enter workout activity: ";
+            getline(cin, activity);   // used this for spaces
+        } while (activity.empty());
 
-        cout << setw(10) << "" << "Enter date (YYYY-MM-DD): ";
+        // date validation check
         string date;
-        getline(cin, date); // allows space here same thing
+        do {
+            cout << setw(10) << "" << "Enter date (YYYY-MM-DD): ";
+            getline(cin, date); // allows space here same thing
+        } while (!isValidDate(date));
 
         //checking time here
-        cout << setw(10) << "" << "Enter duration (min): ";
         double duration; // used double for better input
-        cin >> duration;
+        while (true) {
+            cout << setw(10) << "" << "Enter duration (min): ";
+            cin >> duration;
+            if (!cin.fail() && duration > 0) break;
+
+            cin.clear(); // reset error flags
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard garbage input
+            cout << setw(10) << "" << "Invalid duration. Try again.\n";
+        }
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard leftover newline
 
         // Store the inputs in the vector
@@ -58,13 +91,16 @@ void logWorkout() {
         }
 
         //checking again if user wants to log another workout
-        cout << setw(10) << "" << "Would you like to Log another workout? (y/n): ";
-        cin >> choice;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear newline
+        do {
+            cout << setw(10) << "" << "Would you like to Log another workout? (y/n): ";
+            cin >> choice;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear newline
+        } while (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N');
     }
 
     displayLeaderboard();
 }
+
 // displayLeaderboard: sort by duration and print longest to shortest // just like the student project
 void displayLeaderboard() {
     cout << setw(10) << "" << setfill('-') << setw(40) << "" << setfill(' ') << endl;
