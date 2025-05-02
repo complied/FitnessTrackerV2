@@ -3,20 +3,29 @@
 
 // Included all the necesary libraries
 #include <iostream>
-using namespace std;
 #include <iomanip>
 #include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
 
 namespace logWorkout {
-    const int MAX_WORKOUTS = 100;
+    // Cap logging at 5 workouts per session
+    const size_t MAX_WORKOUTS = 5;
 
-    // Declare variables globally so they can be used in main.cpp
-    extern string activities[MAX_WORKOUTS];
-    extern double durations[MAX_WORKOUTS];
-    extern int workoutCount;
+    // Data containers
+    extern vector<string> activities;   // e.g. "Running"
+    extern vector<string> dates;        // e.g. "2025-05-02"
+    extern vector<double> durations;    // minutes logged
+    extern unordered_map<string, double> workoutMap; // date → duration
 
-    void logWorkout(string activities[], double durations[], int &workoutCount); // defined function in the hpp file!
+    // Record workouts (no validation yet)
+    void logWorkout();
 
-# endif
+    // Show workouts sorted by duration (desc)
+    void displayLeaderboard();
 }
+# endif
+
 
