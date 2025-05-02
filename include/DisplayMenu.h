@@ -1,8 +1,13 @@
-//
-// Created by Subigya Parajuli on 5/2/25.
-//
+#ifndef Utils_DisplayMenu
+#define Utils_DisplayMenu
 
-#ifndef DISPLAYMENU_H
-#define DISPLAYMENU_H
+// Included all the necesary libraries
+#include <iostream>
+using namespace std;
+#include <iomanip>
 
-#endif //DISPLAYMENU_H
+namespace displayMenu
+{
+    void displayMenu(); // defined function in the hpp file!
+}
+# endif

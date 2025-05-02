@@ -1,8 +1,15 @@
-//
-// Created by Subigya Parajuli on 5/2/25.
-//
+#ifndef Utils_wworkoutReccomendation
+#define Utils_wworkoutReccomendation
 
-#ifndef WORKOUTRECCOMENDATIO_H
-#define WORKOUTRECCOMENDATIO_H
+// Included all the necesary libraries
+#include <iostream>
+using namespace std;
+#include <iomanip>
+#include <string>
 
-#endif //WORKOUTRECCOMENDATIO_H
+namespace workoutReccomendation{
+    void workoutReccomendation(); // defined function in the hpp file!
+}
+# endif
+
+

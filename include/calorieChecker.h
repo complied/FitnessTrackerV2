@@ -1,8 +1,15 @@
-//
-// Created by Subigya Parajuli on 5/2/25.
-//
+#ifndef Utils_calorieChecker
+#define Utils_calorieChecker
 
-#ifndef CALORIECHECKER_H
-#define CALORIECHECKER_H
+// Included all the necesary libraries
+#include <iostream>
+using namespace std;
+#include <iomanip>
+#include <string>
 
-#endif //CALORIECHECKER_H
+namespace calorieChecker
+{
+    void calorieChecker(); // defined function in the hpp file!
+}
+# endif
+
