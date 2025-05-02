@@ -152,7 +152,6 @@ v - 0.5.5 --
 
 - Refrance - [Before](https://imgur.com/a/4EvP0jg) VS [After](https://imgur.com/a/vvwaKLP)
 
-
 v - 0.6 
 
 + Updated WorkoutReccomendation 
@@ -167,6 +166,22 @@ v - 0.6
     + Used Enum to keep things more secure and manager 
     + Used Struc to store map which includes a vector 
 
+v - 0.7
++ Updated WorkoutLogger
++ Swapped the old module - Arrays - Vectors and Maps 
++ Implemented Unordered map to compare leaderboards between different workouts
+  + Up to User Dependent workout logger now 
+  + Uses WorkoutMap to store these workouts 
+  +  Passes these down and then compares with std::sort()
+        - bug was caused because of this
+     + Swapped it out with multimap. 
+
++ Added full user input validation
+   + Ensures activity input is non-empty
+   + Confirms duration is a positive number
+   + Parses date using stoi()
+
+Validates format YYYY-MM-DD and ensures date is before 202
 ===================================================
 
 Youtube Video here ------ > https://www.youtube.com/watch?v=IcDLU2BOBRM
