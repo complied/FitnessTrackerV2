@@ -152,6 +152,21 @@ v - 0.5.5 --
 
 - Refrance - [Before](https://imgur.com/a/4EvP0jg) VS [After](https://imgur.com/a/vvwaKLP)
 
+
+v - 0.6 
+
++ Updated WorkoutReccomendation 
+  + Swapped the old module - 2d arrays -> vectors
+  + Created new menu inside the existing option - 3 levels selectable - 1) Beginner, 2) Moderate, 3) Intermedeiate
+    + Customized User input + New workouts 
+    + Used Map for better selection .add feature
+  
++ Udpated WorkoutReccomendation Bug 
+  + Security 
+    + User validation - Checks only for user input 
+    + Used Enum to keep things more secure and manager 
+    + Used Struc to store map which includes a vector 
+
 ===================================================
 
 Youtube Video here ------ > https://www.youtube.com/watch?v=IcDLU2BOBRM
