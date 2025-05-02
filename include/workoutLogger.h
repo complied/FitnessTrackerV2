@@ -25,6 +25,9 @@ namespace logWorkout {
 
     // Show workouts sorted by duration (desc)
     void displayLeaderboard();
+
+    //date validation used here
+    bool isValidDate(string date);
 }
 # endif
 
