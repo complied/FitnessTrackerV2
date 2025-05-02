@@ -1,76 +1,90 @@
-// Included all the necesary libraries
+// workoutLogger.cpp
+#include "../include/workoutLogger.h"
+#include <algorithm>      // used for std::sort for sorting leaderboard entries
+#include <limits>         // buffer
 #include <iostream>
-using namespace std;
 #include <iomanip>
+#include <vector>
 #include <string>
-#include <array>
-#include <limits>
-#include <cctype>
+#include <unordered_map>  // for seperating and comparing
+using namespace std;
+namespace logWorkout {
 
-namespace logWorkout{
+// Definitions for the externals declared in the header:
+vector<string> activities;            // creating vector for each activity
+vector<string> dates;                 //                          Date
+vector<double> durations;             //                          durations
+unordered_map<string, double> workoutMap; //                      leaderboard
 
-const int MAX_WORKOUTS = 15;      // Making sure that the users can only log up to 15 workouts, this can be changed!
-string activities[MAX_WORKOUTS];  // Using Arrays to store the inputs
-double durations[MAX_WORKOUTS];   // Using Arrays to store the inputs
-int workoutCount = 0;             // Setting the initial count to 0
-// Function to log and display workouts
-void logWorkout(string activities[], double durations[], int &workoutCount) {
-    char choice = 'y'; // Used for user input
+// for reacording workout
+void logWorkout() {
+    char choice = 'y';  //yes
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); //added for new line changes
 
-    while (choice == 'y' || choice == 'Y') { // Loop only when user inputs 'y' or 'Y'
-        if (workoutCount >= MAX_WORKOUTS) { // Initial checker - Checking if it's full or not
-            cout << setfill(' ') << setw(10) << "" << "Workout log is full, We cannot add more workouts." << endl;
-            return;
+    // Loop until user opts out or reaches the workout cap
+    while ((choice == 'y' || choice == 'Y') && activities.size() < MAX_WORKOUTS) {
+        cout << setw(10) << ""<< setfill('=') << setw(40) << "" << setfill(' ') << endl;
+
+        cout << setw(10) << "" << "Enter workout activity: ";
+        string activity;
+        getline(cin, activity);   // used this for spaces
+
+        cout << setw(10) << "" << "Enter date (YYYY-MM-DD): ";
+        string date;
+        getline(cin, date); // allows space here same thing
+
+        //checking time here
+        cout << setw(10) << "" << "Enter duration (min): ";
+        double duration; // used double for better input
+        cin >> duration;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard leftover newline
+
+        // Store the inputs in the vector
+        activities.push_back(activity);
+        dates.push_back(date);
+        durations.push_back(duration);
+        workoutMap[date] = duration;  // Insert into map for sorting later
+
+        cout << setw(10) << ""
+             << setfill('=') << setw(40) << ""
+             << setfill(' ') << endl;
+        cout << setw(10) << "" << "Logged workout #" << activities.size() << "!" << endl;
+
+        // If we've reached the maximum allowed workouts, break:
+        if (activities.size() >= MAX_WORKOUTS) {
+            cout << setw(10) << ""
+                 << "Reached maximum of " << MAX_WORKOUTS << " workouts."
+                 << endl;
+            break;
         }
 
-        cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-        cout << setfill(' ') << setw(10) << "" << "Please Enter your workout activity: " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> ";
-
-        // Clears leftover input only once when first workout is being logged to prevent skipping issues
-        if (workoutCount == 0) {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // had a white space bug fixed
-        }
-        getline(cin, activities[workoutCount]); // Store activity name
-
-
-        cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-        cout << setfill(' ') << setw(10) << "" << "Please Enter your duration in minutes: " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> ";
-        cin >> durations[workoutCount];
-
-        // Basic input validation using numeric_limits
-        while (cin.fail() || durations[workoutCount] <= 0) { // or
-            cout << setfill(' ') << setw(10) << "" << "Invalid input! Enter a valid number of minutes: ";
-
-            cin.clear();  // Clearing the error again
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-            cin >> durations[workoutCount]; // Ask again for a valid input
-        }
-
-        workoutCount++; // Increase workout count
-
-        cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-        cout << setfill(' ') << setw(10) << "" << "Workout Logged Successfully!" << endl;
-        cout << setfill(' ') << setw(10) << "" << "Your Total Workouts Logged So Far Are : " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> " << workoutCount << endl;
-
-
-        cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-        // Again Loops and asks if the users want to log again
-        cout << setfill(' ') << setw(10) << "" << "Would you like to log another workout? (y/n): ";
+        //checking again if user wants to log another workout
+        cout << setw(10) << "" << "Would you like to Log another workout? (y/n): ";
         cin >> choice;
-
-        // Clears any extra input + avoids issues on the next loop iteration
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        //checks for N for no
-        if (choice == 'n' || choice == 'N') {
-            cout << setfill(' ') << setw(10) << "" << "Exiting The workout!" << endl;
-            cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-            break; //  Correctly exits the loop
-        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear newline
     }
+
+    displayLeaderboard();
 }
+// displayLeaderboard: sort by duration and print longest to shortest // just like the student project
+    void displayLeaderboard() {
+    cout << setw(10) << "" << setfill('-') << setw(40) << "" << setfill(' ') << endl;
+    cout << setw(10) << "" << "Here's your  Workout Leaderboard (longest to shortest):" << endl;
+
+    // Coping from the map into a vector for sorting:
+    vector<pair<string, double>> entries(workoutMap.begin(), workoutMap.end());
+
+    // Sort the entries by duration descending:
+    sort(entries.begin(), entries.end(), [](const auto &a, const auto &b) {
+        return a.second > b.second;
+    });
+
+    for (const auto &p : entries) {
+        cout << setw(10) << ""
+             << p.first << " : " << p.second << " min"
+             << endl;
+    }
+    cout << setw(10) << "" << setfill('-') << setw(40) << "" << setfill(' ') << endl;
+}
+
 }
