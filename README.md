@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 Fitness Tracker
 # Overview
 A simple C++ program that helps users log workouts, get workout recommendations, and calculate calories burned based on activity type.
@@ -33,7 +33,6 @@ V - 0.1 -
 + Proper display with <iomanip> library implementation!
 
 v - 0.2 -
->>>>>>> 0e62218cb35c698828bac5deb6ad2df4c4e9ab11
 + New Feature: Added a Calorie Calculator, which allows users to estimate calories burned based on their weight, workout type, and duration.
 + Supports three workout types: Running, Swimming, and Biking.
 + Implements error handling for invalid inputs, prompting users to enter the correct workout name.
@@ -150,10 +149,8 @@ v - 0.5.5 --
         - Missing break statement in main , Case 4 fixed.
         - cin.ignore() being called before every getline() caused white space/enter issue - > next workout being skipped.
         - Replaced it with cin.ignore() every time workoutcount == 0.
->>>>>>> 0e62218cb35c698828bac5deb6ad2df4c4e9ab11
+
 - Refrance - [Before](https://imgur.com/a/4EvP0jg) VS [After](https://imgur.com/a/vvwaKLP)
-
-
 
 ===================================================
 
@@ -162,11 +159,9 @@ Link to V1 - https://github.com/complied/FitnessTracker
 ===================================================
 
 
-<<<<<<< HEAD
 Some Sources Used to complete this project!
 =======
 Some Sources Used to complete this project!
->>>>>>> 0e62218cb35c698828bac5deb6ad2df4c4e9ab11
 
 https://www.geeksforgeeks.org/
 https://stackoverflow.com/
