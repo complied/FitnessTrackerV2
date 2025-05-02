@@ -1,12 +1,12 @@
 // workoutLogger.cpp
 #include "../include/workoutLogger.h"
-#include <algorithm>      // used for std::sort for sorting leaderboard entries
 #include <limits>         // buffer
 #include <iostream>
 #include <iomanip>
 #include <vector>
 #include <string>
 #include <unordered_map>  // for seperating and comparing
+#include <map>            // added for multimap sorting
 using namespace std;
 namespace logWorkout {
 
@@ -52,8 +52,7 @@ void logWorkout() {
 
         // If we've reached the maximum allowed workouts, break:
         if (activities.size() >= MAX_WORKOUTS) {
-            cout << setw(10) << ""
-                 << "Reached maximum of " << MAX_WORKOUTS << " workouts."
+            cout << setw(10) << ""<< "Reached maximum of " << MAX_WORKOUTS << " workouts."
                  << endl;
             break;
         }
@@ -67,23 +66,21 @@ void logWorkout() {
     displayLeaderboard();
 }
 // displayLeaderboard: sort by duration and print longest to shortest // just like the student project
-    void displayLeaderboard() {
+void displayLeaderboard() {
     cout << setw(10) << "" << setfill('-') << setw(40) << "" << setfill(' ') << endl;
     cout << setw(10) << "" << "Here's your  Workout Leaderboard (longest to shortest):" << endl;
 
-    // Coping from the map into a vector for sorting:
-    vector<pair<string, double>> entries(workoutMap.begin(), workoutMap.end());
+    multimap<double, string, greater<double>> sortedMap; // duration -> date (descending)
+    for (const auto& entry : workoutMap) {
+        sortedMap.insert({entry.second, entry.first});
+    }
 
-    // Sort the entries by duration descending:
-    sort(entries.begin(), entries.end(), [](const auto &a, const auto &b) {
-        return a.second > b.second;
-    });
-
-    for (const auto &p : entries) {
+    for (const auto& p : sortedMap) {
         cout << setw(10) << ""
-             << p.first << " : " << p.second << " min"
+             << p.second << " : " << p.first << " min"
              << endl;
     }
+
     cout << setw(10) << "" << setfill('-') << setw(40) << "" << setfill(' ') << endl;
 }
 
