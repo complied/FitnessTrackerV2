@@ -158,7 +158,7 @@ v - 0.5.5 --
 ===================================================
 
 Youtube Video here ------ > https://www.youtube.com/watch?v=IcDLU2BOBRM
-
+Link to V1 - https://github.com/complied/FitnessTracker
 ===================================================
 
 
