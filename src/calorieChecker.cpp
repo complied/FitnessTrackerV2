@@ -9,20 +9,15 @@ namespace calorieChecker {
 
     // Converts a workout name string into the corresponding enum value.
     WorkoutType parseWorkout(const string& s) {
-        if (s == "Running") {
-            return WorkoutType::Running; //maping straight to enum
-        }
-        else if (s == "Swimming") {
+        if (s == "Running")
+            return WorkoutType::Running;  // mapping straight to enum
+        if (s == "Swimming")
             return WorkoutType::Swimming;
-        }
-        else {
-            return WorkoutType::Biking; // last options so default
-        }
+        return WorkoutType::Biking;  // last option so default
     }
 
-
     void calorieCalculator() {
-        //storing this at 0 for safety and clarity
+        // storing this at 0 for safety and clarity
         string workOuts;         // holds user input for workout type
         double weight = 0.0;     // holds user input for weight
         double duration = 0.0;   // holds user input for duration
@@ -30,33 +25,49 @@ namespace calorieChecker {
 
         // selecting the workouts now
         while (true) {
-            // display menu header
             cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
             cout << setfill(' ') << setw(10) << "" << "[Running] - [Swimming] - [Biking]" << endl;
             cout << setfill(' ') << setw(10) << "" << "Choose one of the following: ";
-            cin >> workOuts;  // read into string
+            cin >> workOuts;
 
-            // validate input
             if (workOuts == "Running" || workOuts == "Swimming" || workOuts == "Biking") {
-                break;  // valid selection, exit loop
+                break;
             }
-            // invalid selection, prompt again
             cout << setfill(' ') << setw(10) << "" << "Invalid choice, try again." << endl;
         }
 
-        // User entering weight
-        cout << setfill(' ') << setw(10) << "" << "Please Enter Your Weight In Kgs: " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> ";
-        cin >> weight;  // weight in kg
+        // User entering weight with input validation
+        while (true) {
+            cout << setfill(' ') << setw(10) << "" << "Please Enter Your Weight In Kgs:\n";
+            cout << setfill(' ') << setw(10) << "" << ">> ";
+            cin >> weight;
 
-        // Entering duration
-        cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
-        cout << setfill(' ') << setw(10) << "" << "Please Enter Your Duration In Minutes: " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> ";
-        cin >> duration;  // duration in minutes
+            if (cin.fail() || weight <= 0) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << setfill(' ') << setw(10) << "" << "Invalid input. Please enter a valid number.\n";
+            } else {
+                break;
+            }
+        }
+
+        // User entering duration with input validation
+        while (true) {
+            cout << setfill(' ') << setw(10) << "" << "Please Enter Your Duration In Minutes:\n";
+            cout << setfill(' ') << setw(10) << "" << ">> ";
+            cin >> duration;
+
+            if (cin.fail() || duration <= 0) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << setfill(' ') << setw(10) << "" << "Invalid input. Please enter a valid number.\n";
+            } else {
+                break;
+            }
+        }
 
         // Total burnt calories
-        WorkoutType wt = parseWorkout(workOuts); // changing from STRING to ENUM
+        WorkoutType wt = parseWorkout(workOuts);  // changing from STRING to ENUM
         if (wt == WorkoutType::Running) {
             burned = weight * 0.0175 * 9.8 * duration;
         }
@@ -66,38 +77,62 @@ namespace calorieChecker {
         else {
             burned = weight * 0.0175 * 8.0 * duration;
         }
+
         cout << fixed << setprecision(2);
-        cout << setfill(' ') << setw(10) << "" << "Your estimated calories burned are: " << endl;
-        cout << setfill(' ') << setw(10) << "" << setfill('-') << setw(5) << "" << "> "
-             << burned << " KCal" << endl;
+        cout << setfill(' ') << setw(10) << "" << "Your estimated calories burned are:\n";
+        cout << setfill(' ') << setw(10) << "" << ">> " << burned << " KCal\n";
     }
 
     void emergencyTracker() {
         // Create a CalorieSession instance on the heap
-        // unique_ptr<CalorieSession> manages the memory automatically
         unique_ptr<CalorieSession> session = make_unique<CalorieSession>();
 
-        string workOuts;  // to capture workout type input
+        string workOuts;
         while (true) {
             cout << setfill(' ') << setw(10) << "" << setfill('=') << setw(40) << "" << endl;
             cout << setfill(' ') << setw(10) << "" << "[Running] - [Swimming] - [Biking]" << endl;
             cout << setfill(' ') << setw(10) << "" << "Choose emergency workout: ";
             cin >> workOuts;
+
             if (workOuts == "Running" || workOuts == "Swimming" || workOuts == "Biking") {
                 break;
             }
             cout << setfill(' ') << setw(10) << "" << "Invalid input. Try again." << endl;
         }
-        // Map string to enum, store in struct
+
         session->type = parseWorkout(workOuts);
-        cout << setfill(' ') << setw(10) << "" << "Enter weight (kg): " << endl;
-        cin >> session->weight;  // store directly into struct
 
-        // -- Enter duration --
-        cout << setfill(' ') << setw(10) << "" << "Enter duration (min): " << endl;
-        cin >> session->duration;  // store directly into struct
+        // Validate weight input
+        while (true) {
+            cout << setfill(' ') << setw(10) << "" << "Enter weight (kg):\n";
+            cout << setfill(' ') << setw(10) << "" << ">> ";
+            cin >> session->weight;
 
-        // -- Compute calories burned and store
+            if (cin.fail() || session->weight <= 0) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << setfill(' ') << setw(10) << "" << "Invalid input. Please enter a number.\n";
+            } else {
+                break;
+            }
+        }
+
+        // Validate duration input
+        while (true) {
+            cout << setfill(' ') << setw(10) << "" << "Enter duration (min):\n";
+            cout << setfill(' ') << setw(10) << "" << ">> ";
+            cin >> session->duration;
+
+            if (cin.fail() || session->duration <= 0) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << setfill(' ') << setw(10) << "" << "Invalid input. Please enter a number.\n";
+            } else {
+                break;
+            }
+        }
+
+        // Compute calories burned and store
         if (session->type == WorkoutType::Running) {
             session->calories = session->weight * 0.0175 * 9.8 * session->duration;
         }
@@ -108,23 +143,19 @@ namespace calorieChecker {
             session->calories = session->weight * 0.0175 * 8.0 * session->duration;
         }
 
-        // printing into csv file now~
         const string path = "/Users/subigyaparajuli/Desktop/FitnessTrackerV2/data/emergency_session.csv";
-        ofstream outFile(path, ios::app);  // open in append mode
+        ofstream outFile(path, ios::app);
         if (outFile.is_open()) {
-            // Write CSV line: workout,weight,duration,calories
             outFile << workOuts << ","
                     << session->weight << ","
                     << session->duration << ","
                     << session->calories << endl;
-            outFile.close();  // close file to flush data
+            outFile.close();
 
-            // calories burnt now
-            cout << "Your total calories that have been burnt is : " << session->calories << endl;
-            cout << "Now it is being stored in your file." << endl;
-        }
-        else {
-            // Error handling if file fails to open
+            cout << setfill(' ') << setw(10) << "" << "Your total calories that have been burnt is:\n";
+            cout << setfill(' ') << setw(10) << "" << ">> " << fixed << setprecision(2) << session->calories << " KCal\n";
+            cout << setfill(' ') << setw(10) << "" << "Now it is being stored in your file." << endl;
+        } else {
             cerr << "Error: Could not open " << path << " for writing." << endl;
         }
     }
