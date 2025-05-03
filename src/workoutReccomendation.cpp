@@ -1,4 +1,3 @@
-
 // Included all the necesary libraries
 
 #include "../include/workoutReccomendation.h"
@@ -26,7 +25,7 @@ namespace workoutReccomendation {
 
           int choice;
           cin >> choice;
-          // keep prompting until we get an integer in [1..3]
+          // keep prompting until we get an integer in [1,2,3]
           while (cin.fail() || choice < 1 || choice > 3) {
                cin.clear();
                cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -34,6 +33,8 @@ namespace workoutReccomendation {
                     << "Invalid choice! Please enter a number between 1 and 3: ";
                cin >> choice;
           }
+          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // fixed the double enter issue.
+
           Difficulty diff = static_cast<Difficulty>(choice); // different choices based on enum
 
           static const map<Difficulty, vector<WorkoutDay>> workoutPlans = { // different workout with different vector
@@ -81,5 +82,9 @@ namespace workoutReccomendation {
                cout << setfill(' ') << setw(10) << ""
                     << setfill('=') << setw(40) << "" << endl;
           }
+
+          // fixed the double enter issue by moving the pause here
+          cout << setfill(' ') << setw(10) << "" << "Please Press Enter to return to the main menu.";
+          cin.get();
      }
 }
