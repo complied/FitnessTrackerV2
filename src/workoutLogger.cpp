@@ -32,7 +32,7 @@ bool isValidDate(string date) {
     int y = stoi(year);
     int m = stoi(month);
     int d = stoi(day);
-    if (y >= 2025 || m < 1 || m > 12 || d < 1 || d > 31) return false;
+    if (y >= 2026 || m < 1 || m > 12 || d < 1 || d > 31) return false;
     return true;
 }
 
@@ -57,6 +57,10 @@ void logWorkout() {
         do {
             cout << setw(10) << "" << "Enter date (YYYY-MM-DD): ";
             getline(cin, date); // allows space here same thing
+
+            if (!isValidDate(date)) {
+                cout << setw(10) << "" << "Invalid format or value. Use YYYY-MM-DD and keep year before 2026.\n";
+            }
         } while (!isValidDate(date));
 
         //checking time here

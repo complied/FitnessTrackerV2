@@ -1,7 +1,7 @@
-// ===== calorieChecker.cpp =====
 #include "../include/calorieChecker.h"
 #include <fstream>
 #include <limits>
+#include <cstring>
 
 using namespace std;
 
@@ -151,12 +151,34 @@ namespace calorieChecker {
                     << session->duration << ","
                     << session->calories << endl;
             outFile.close();
+        } else {
+            cerr << "Error: Could not open " << path << " for writing." << endl;
+        }
+
+        // Save to Binary
+        struct BinarySession {
+            char workout[30];
+            double weight;
+            double duration;
+            double calories;
+        };
+
+        BinarySession binarySession;
+        strncpy(binarySession.workout, workOuts.c_str(), sizeof(binarySession.workout));
+        binarySession.weight = session->weight;
+        binarySession.duration = session->duration;
+        binarySession.calories = session->calories;
+
+        ofstream binaryOut("/Users/subigyaparajuli/Desktop/FitnessTrackerV2/data/emergency_session.dat", ios::binary | ios::app);
+        if (binaryOut.is_open()) {
+            binaryOut.write(reinterpret_cast<char*>(&binarySession), sizeof(BinarySession));
+            binaryOut.close();
 
             cout << setfill(' ') << setw(10) << "" << "Your total calories that have been burnt is:\n";
             cout << setfill(' ') << setw(10) << "" << ">> " << fixed << setprecision(2) << session->calories << " KCal\n";
             cout << setfill(' ') << setw(10) << "" << "Now it is being stored in your file." << endl;
         } else {
-            cerr << "Error: Could not open " << path << " for writing." << endl;
+            cerr << "Error: Could not open binary file for writing.\n";
         }
     }
 

@@ -14,11 +14,11 @@ namespace workoutManager {
             string day;
 
             // assigning workout activity to selected day
-            cout << "Please Enter a day you want to assign the workout: [ " << activities[i] << " ] ";
+            cout << setw(10) << "" << "Please Enter a day you want to assign the workout: [ " << activities[i] << " ] ";
             cin >> day;
 
             if (workoutManager[day].size() >= 5) { // limiting maximum to 5
-                cout << "Day is full! Cannot assign more workouts to " << day << ".\n";
+                cout << setw(10) << "" << "Day is full! Cannot assign more workouts to " << day << ".\n";
                 continue;
             }
 
@@ -28,16 +28,22 @@ namespace workoutManager {
             // Add the workout pointer to the selected day's vector inside the map
             workoutManager[day].push_back(workoutPtr);
 
-            cout << "Perfect! Your Workout [" << activities[i] << "] has been assigned to: " << day << "\n";
+            cout << setw(10) << "" << "Perfect! Your Workout [" << activities[i] << "] has been assigned to: " << day << "\n";
         }
 
         // displaying the whole workout map
-        cout << "\nWorkout Assignment Schedule:\n";
-        for (const auto& pair : workoutManager) {
-            cout << pair.first << ":\n";
-            for (const auto& workoutPtr : pair.second) {
-                cout << "  - " << workoutPtr->type << " (" << workoutPtr->duration << " min)\n";
+        cout << "\n" << setw(10) << "" << "Workout Assignment Schedule:\n";
+
+        if (workoutManager.empty()) {
+            cout << setw(10) << "" << "No workouts have been assigned yet.\n";
+        } else {
+            for (const auto& pair : workoutManager) {
+                cout << setw(10) << "" << pair.first << ":\n";
+                for (const auto& workoutPtr : pair.second) {
+                    cout << setw(15) << "" << "- " << workoutPtr->type << " (" << workoutPtr->duration << " min)\n";
+                }
             }
         }
     }
+
 }
