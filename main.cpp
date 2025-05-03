@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
                 continue;
             case 3:
                 logWorkout::logWorkout(); // Updated
-                break;
+                continue;
             case 4:
                 workoutManager::assignWorkoutToDay(); // connected both - logged workout to workout manager
                 break;
