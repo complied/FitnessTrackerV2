@@ -5,4 +5,7 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
+namespace fileManager {
+    void readEmergencySessionsFromBinary();
+}
 #endif //FILEMANAGER_H
