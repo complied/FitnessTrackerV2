@@ -1,4 +1,4 @@
-// test_main.cpp
+
 #include <gtest/gtest.h>
 #include "../include/calorieChecker.h"
 #include "../include/workoutLogger.h"
@@ -8,7 +8,7 @@ using namespace calorieChecker;
 using namespace logWorkout;
 
 
-// --------- TESTS FOR parseWorkout() ---------
+
 TEST(CalorieCheckerTests, ParseWorkout_ValidInputs) {
     EXPECT_EQ(parseWorkout("Running"), WorkoutType::Running);
     EXPECT_EQ(parseWorkout("Swimming"), WorkoutType::Swimming);
@@ -21,7 +21,7 @@ TEST(CalorieCheckerTests, ParseWorkout_InvalidDefaultsToBiking) {
     EXPECT_EQ(parseWorkout(""), WorkoutType::Biking);
 }
 
-// --------- TESTS FOR isValidDate() ---------
+
 TEST(WorkoutLoggerTests, IsValidDate_ValidDates) {
     EXPECT_TRUE(isValidDate("2024-05-02"));
     EXPECT_TRUE(isValidDate("2025-12-31"));
@@ -42,7 +42,7 @@ TEST(WorkoutLoggerTests, IsValidDate_InvalidValues) {
     EXPECT_FALSE(isValidDate("2025-02-00")); // invalid day
 }
 
-// --------- TESTS FOR CALORIES FORMULA ---------
+
 double computeCalories(WorkoutType type, double weight, double duration) {
     if (type == WorkoutType::Running) return weight * 0.0175 * 9.8 * duration;
     if (type == WorkoutType::Swimming) return weight * 0.0175 * 7.0 * duration;
@@ -55,7 +55,7 @@ TEST(CalorieCheckerTests, CalorieCalculation_Correctness) {
     EXPECT_DOUBLE_EQ(computeCalories(WorkoutType::Biking, 55, 40), 308.0);
 }
 
-// --------- SMART POINTER TEST FOR CalorieSession ---------
+
 TEST(CalorieCheckerTests, CalorieSession_UsingSmartPointer) {
     auto session = std::make_unique<CalorieSession>();
     session->type = WorkoutType::Running;
@@ -67,7 +67,7 @@ TEST(CalorieCheckerTests, CalorieSession_UsingSmartPointer) {
     EXPECT_EQ(session->type, WorkoutType::Running);
 }
 
-// --------- TESTS FOR MAP LIMIT IN WORKOUT ASSIGNMENT ---------
+
 TEST(WorkoutAssignTests, LimitPerDay) {
     std::string testDay = "Monday";
     for (int i = 0; i < 5; i++) {
