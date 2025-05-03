@@ -3,7 +3,9 @@ project(FitnessTrackerV2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(FitnessTrackerV2 main.cpp
+# Main executable
+add_executable(FitnessTrackerV2
+        main.cpp
         include/calorieChecker.h
         include/DisplayMenu.h
         include/fileManager.h
@@ -16,5 +18,32 @@ add_executable(FitnessTrackerV2 main.cpp
         src/workoutAssign.cpp
         src/workoutLogger.cpp
         src/workoutReccomendation.cpp
-        test/test_file_validation.cpp
 )
+
+# Enable testing
+enable_testing()
+
+# Add GoogleTest submodule (make sure the folder exists!)
+add_subdirectory(extern/googletest)
+
+# Test executable
+add_executable(FitnessTrackerTests
+        test/test_file_validation.cpp
+        test/test_name_validation.cpp
+        test/full_test_suite.cpp
+        src/calorieChecker.cpp
+        src/workoutLogger.cpp
+        src/workoutAssign.cpp
+        src/fileManager.cpp
+)
+
+# Link GoogleTest and pthread
+target_link_libraries(FitnessTrackerTests
+        gtest
+        gtest_main
+        pthread
+)
+
+# Discover tests
+include(GoogleTest)
+gtest_discover_tests(FitnessTrackerTests)
