@@ -179,9 +179,15 @@ v - 0.7
 + Added full user input validation
    + Ensures activity input is non-empty
    + Confirms duration is a positive number
-   + Parses date using stoi()
-
-Validates format YYYY-MM-DD and ensures date is before 202
+     + Parses date using stoi()
+        Validates format YYYY-MM-DD and ensures date is before 2025
+v - 0.8 
+     + Updated Workout Assign to fit with WorkoutLogger 
+     + Now, after logging your workouts (with activity name, date, and duration), you can assign each workout to a specific day of the week.
+     + Uses shared_ptr<workout> to manage workout memory safely.
+       + Fixed White space bug again. 
+       + Updated main to fit the user update. 
+     
 ===================================================
 
 Youtube Video here ------ > https://www.youtube.com/watch?v=IcDLU2BOBRM
