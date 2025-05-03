@@ -10,7 +10,7 @@ namespace workoutManager {
     workout::workout(const string &t, double d) : type(t), duration(d) {} // workout constructor
 
     void assignWorkoutToDay() {
-        for (size_t i = 0; i < activities.size(); ++i) { // switching through each workout
+        for (int i = 0; i < activities.size(); i++) { // switching through each workout
             string day;
 
             // assigning workout activity to selected day
@@ -40,4 +40,3 @@ namespace workoutManager {
             }
         }
     }
-}
