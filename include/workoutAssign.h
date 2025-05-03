@@ -12,7 +12,6 @@ using namespace std;
 
 //creating namespace for better usage in cpp and main
 namespace workoutManager {
-
     struct workout{ //creating struct for better object management
         string type; // workout type
         double duration; // creating a duration for the workout
@@ -27,7 +26,7 @@ namespace workoutManager {
 
 
     // conneting existing workouts to days!
-    void assignWorkoutToDay(string activities[], double durations[], int workoutCount); // function def
+    void assignWorkoutToDay();
 }
 
 
