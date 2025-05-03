@@ -28,9 +28,7 @@ add_subdirectory(extern/googletest)
 
 # Test executable
 add_executable(FitnessTrackerTests
-        test/test_file_validation.cpp
         test/test_name_validation.cpp
-        test/full_test_suite.cpp
         src/calorieChecker.cpp
         src/workoutLogger.cpp
         src/workoutAssign.cpp

@@ -28,6 +28,7 @@ namespace calorieChecker {
     // Emergency tracker: uses unique_ptr, stores to binary file
     void emergencyTracker();
 
+    WorkoutType parseWorkout(const std::string& s);
 } // namespace calorieChecker
 
 
