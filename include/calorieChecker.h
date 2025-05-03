@@ -3,13 +3,34 @@
 
 // Included all the necesary libraries
 #include <iostream>
-using namespace std;
 #include <iomanip>
 #include <string>
+#include <memory>    // for unique_ptr
 
-namespace calorieChecker
-{
-    void calorieChecker(); // defined function in the hpp file!
-}
-# endif
+using namespace std;
+
+namespace calorieChecker {
+
+    // Enum to categorize workout types
+    enum class WorkoutType { Running, Swimming, Biking };
+
+    // Struct for calorie brun session
+    struct CalorieSession {
+        WorkoutType type;
+        double weight;
+        double duration;
+        double calories;
+    };
+
+    // Original interactive calculator
+    void calorieCalculator();
+
+    // Emergency tracker: uses unique_ptr, stores to binary file
+    void emergencyTracker();
+
+} // namespace calorieChecker
+
+
+#endif // CALORIE_CHECKER_H
+
 
