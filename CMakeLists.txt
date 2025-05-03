@@ -16,4 +16,5 @@ add_executable(FitnessTrackerV2 main.cpp
         src/workoutAssign.cpp
         src/workoutLogger.cpp
         src/workoutReccomendation.cpp
+        test/test_file_validation.cpp
 )
