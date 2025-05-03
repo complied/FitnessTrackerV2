@@ -1,206 +1,141 @@
+# V2 STARTED FROM VERSION 0.5
 
-Fitness Tracker
-# Overview
-A simple C++ program that helps users log workouts, get workout recommendations, and calculate calories burned based on activity type.
+# Fitness Tracker
 
-#Features
-- Log workout type and duration
-- Get basic workout recommendations
-- Calculate total calories burned
-- Workout Assign
+## Overview
+A simple C++ program that helps users log workouts, get workout recommendations, assign routines, and calculate calories burned based on activity type.
 
+## Features
++ Log workout activity, date, and duration
+    - Full input validation (activity name, date format YYYY-MM-DD, duration > 0)
+    - Uses unordered_map and multimap to organize data and sort leaderboard by duration
 
-V - 0.1 -
-+ Added a Display function with error handling.
-+ Proper display with <iomanip> library implementation!
++ Get personalized workout recommendations based on fitness level
+    - Beginner (3-day), Moderate (4-day), Intermediate (6-day)
+    - Mapped with structured plans using enums, maps, and vectors
 
-v - 0.2 -
-=======
-Fitness Tracker
++ Assign logged workouts to days of the week
+    - Integrates with workoutLogger
+    - Uses shared_ptr and map<string, vector<shared_ptr<workout>>> for clean assignment
+    - Limit: Max 5 workouts per day
 
-# Overview
-A simple C++ program that helps users log workouts, get workout recommendations, and calculate calories burned based on activity type.
++ Calculate calories burned
+    - Based on MET values for Running, Swimming, and Biking
+    - Requires weight and duration inputs
+    - Accurate calculations with formatted output
 
-#Features
-- Log workout type and duration
-- Get basic workout recommendations
-- Calculate total calories burned
-- Workout Assign
++ Emergency session logging
+    - Save workouts into .csv and binary files
+    - Supports urgent calorie tracking use case
 
++ View emergency session logs
+    - Displays all logged binary sessions in formatted output
+    - Error handling for file read/write issues
 
-V - 0.1 -
-+ Added a Display function with error handling.
-+ Proper display with <iomanip> library implementation!
++ Organized modular structure
+    - Each component in its own namespace and file
+    - Uses enums, structs, STL containers
 
-v - 0.2 -
-+ New Feature: Added a Calorie Calculator, which allows users to estimate calories burned based on their weight, workout type, and duration.
-+ Supports three workout types: Running, Swimming, and Biking.
-+ Implements error handling for invalid inputs, prompting users to enter the correct workout name.
-+ Uses MET (Metabolic Equivalent of Task) values for accurate calorie estimation:
-    + Running (~6 mph): MET = 9.8
-    + Swimming (moderate effort): MET = 7.0
-    + Biking (~12-14 mph): MET = 8.0
-+ Outputs calculated calories burned in a formatted, user-friendly manner with two decimal precision.
-+ Updated Menu function! - Better flexiblity
++ Unit Tested with GoogleTest
+    - Core functions like parseWorkout and isValidDate tested
+    - Compile and run via CMake or CLion
 
-<<<<<<< HEAD
-v - 0.3 -
++ Formatted UI
+    - setfill, setw, and spacing used to align terminal output
 
-+ Implemented New Features for #CalorieChecker!
-    + Used cin.fail(), cin.ignore(), and numeric_limits to improve input validation.
-    + Ensures only valid inputs are accepted, preventing bugs and crashes.
++ Bug Fixes with visual proof:
+    - Before (Workout skipped, input broken): https://imgur.com/a/4EvP0jg
+    - After (Clean input, structured logging): https://imgur.com/a/vvwaKLP
 
-+Removed Fitness.cpp/Fitness.hpp files
-+ Organized all functions into their own .cpp and .hpp files for better structure and maintainability.
+---
 
-+ New Function Added! #WorkoutRecommendation
-    + Recommends workouts based on different fitness levels:
-        + Beginner- 3-day workout plan
-        + Moderate - 4-day workout plan
-        + Intermediate - 6-day workout plan
+## Version History
 
-v - 0.4 --
+### V - 0.1
++ Added a Display function with error handling
++ Proper display with `<iomanip>` library implementation
 
-+ Created A New Function! #WorkoutLogger! Uses the parameeters of string[], int[]
-+ Added a configuration for how many workouts you can log - In this case 15
-    + Uses arrays to store workout activities and durations
-+ Using If to check y for yes more & n for no more logging
+### V - 0.2
++ New Feature: Calorie Calculator to estimate calories burned based on weight, workout type, and duration
++ Supports Running, Swimming, Biking with specific MET values
++ User-friendly formatted output with input error handling
++ Updated Menu for better flexibility
 
-+ Security
-    + Added std::numeric_limits<streamsize>::max() to clear input buffer and prevent skipping issues.
-        + Usuage of cin.ignore and getline to avoid invalid duration inputs
+### V - 0.3
++ Enhanced CalorieChecker with strong input validation (cin.fail, cin.ignore)
++ Removed old Fitness.cpp/Fitness.hpp files
++ Separated functionality into modular .cpp and .hpp files
++ New Feature: WorkoutRecommendation (Beginner/Moderate/Intermediate plans)
 
-+ Updated Code for Workout Reccomendation!
-    + Now the security bug got fixed
-    + Added a while-loop to ensure valid input selection before proceeding.
-      Users can no longer enter invalid options like and proceed.
-      +C learer formatting for invalid input messages.
-    + Prevents accidental exits due to incorrect input.
+### V - 0.4
++ Created WorkoutLogger
+    - Logs up to 15 workouts using arrays (activity + duration)
+    - Added support for y/n inputs to continue or stop logging
++ Improved input handling with getline and cin.ignore
++ Updated main loop to prevent accidental exits
++ Added menu option 4 to exit cleanly
 
-
-+ Updated Main!
-    + Now added a loop in main where, Now It wont end Untill user presses Enter or return - Bascially White Space
-    + Now Theres Another Switch statement added - 4 To exit!
-    + Loops and Loops now!
-    + added extra Cin command cin.get(); & cin.fail();
-
-v - 0.5.5 --
-
+### V - 0.5.5
 + Implemented AssignWorkoutDay function
-    + - Connects with workoutLogger by accessing the existing global arrays (activities, durations, and workoutCount).
-        - Passes these arrays as parameters into assignWorkoutToDay()
-        - Goes through the workouts, creates shared pointers, and assigns them to days inside a map<string, vector<shared_ptr<workout>>>.
-        - Added 5 times a week limitations for reccomendations.
+    - Connects to global arrays from WorkoutLogger
+    - Assigns workouts to days using shared_ptr in a map
+    - Limit: Max 5 workouts per day
++ Fixed white space bug
+    - Missing break in switch-case fixed
+    - cin.ignore adjusted only when workoutCount == 0
 
-    + White space bug fixed
-        - Missing break statement in main , Case 4 fixed.
-        - cin.ignore() being called before every getline() caused white space/enter issue - > next workout being skipped.
-        - Replaced it with cin.ignore() every time workoutcount == 0.
-          =======
-          v - 0.3 -
+### V - 0.6
++ Rebuilt WorkoutRecommendation
+    - Replaced 2D arrays with maps and vectors
+    - Structured using enums and structs
+    - Added user-selectable difficulty levels
 
-+ Implemented New Features for #CalorieChecker!
-    + Used cin.fail(), cin.ignore(), and numeric_limits to improve input validation.
-    + Ensures only valid inputs are accepted, preventing bugs and crashes.
+### V - 0.7
++ Rebuilt WorkoutLogger
+    - Replaced arrays with vectors and unordered_map
+    - Leaderboard logic switched from std::sort to multimap
++ Improved validation for activity, duration, and date
+    - Ensures input is valid and date is pre-2026
 
-+Removed Fitness.cpp/Fitness.hpp files
-+ Organized all functions into their own .cpp and .hpp files for better structure and maintainability.
+### V - 0.8
++ Connected Workout Assign with Workout Logger
+    - Assign workouts with date/duration to specific weekdays
+    - Used shared_ptr and safe memory handling
++ Cleaned up main logic and whitespace bugs
 
-+ New Function Added! #WorkoutRecommendation
-    + Recommends workouts based on different fitness levels:
-        + Beginner- 3-day workout plan
-        + Moderate - 4-day workout plan
-        + Intermediate - 6-day workout plan
+### V - 0.9
++ Fixed File Manager
+    - Now reads binary logs saved from WorkoutLogger
+    - Clean session display on terminal
+    - Struct alignment fixed for read/write consistency
+    - Added file error handling for robustness
 
-v - 0.4 --
+### V - 10.0
++ Added GoogleTest support for unit testing
 
-+ Created A New Function! #WorkoutLogger! Uses the parameeters of string[], int[]
-+ Added a configuration for how many workouts you can log - In this case 15
-    + Uses arrays to store workout activities and durations
-+ Using If to check y for yes more & n for no more logging
+  How to run?
+    1. Build the test target:
+       `$ cmake --build . --target test_main`
+    2. Run the tests:
+       `$ ./test_main`
+    3. View results in terminal (pass/fail)
 
-+ Security
-    + Added std::numeric_limits<streamsize>::max() to clear input buffer and prevent skipping issues.
-        + Usuage of cin.ignore and getline to avoid invalid duration inputs
+---
 
-+ Updated Code for Workout Reccomendation!
-    + Now the security bug got fixed
-    + Added a while-loop to ensure valid input selection before proceeding.
-      Users can no longer enter invalid options like and proceed.
-      +C learer formatting for invalid input messages.
-    + Prevents accidental exits due to incorrect input.
+## Demo Links
 
++ YouTube Video (V1): https://www.youtube.com/watch?v=IcDLU2BOBRM
++ Link to V1 GitHub Repo: https://github.com/complied/FitnessTracker
++ V2 Demo (Google Drive): https://drive.google.com/drive/u/0/folders/1oEat0s--AFmA0revnO6Cva3JIh2uH4mm
 
-+ Updated Main!
-    + Now added a loop in main where, Now It wont end Untill user presses Enter or return - Bascially White Space
-    + Now Theres Another Switch statement added - 4 To exit!
-    + Loops and Loops now!
-    + added extra Cin command cin.get(); & cin.fail();
+---
 
-v - 0.5.5 --
+## Some Sources Used to Complete This Project
 
-+ Implemented AssignWorkoutDay function
-    + - Connects with workoutLogger by accessing the existing global arrays (activities, durations, and workoutCount).
-        - Passes these arrays as parameters into assignWorkoutToDay()
-        - Goes through the workouts, creates shared pointers, and assigns them to days inside a map<string, vector<shared_ptr<workout>>>.
-        - Added 5 times a week limitations for reccomendations.
-
-    + White space bug fixed
-        - Missing break statement in main , Case 4 fixed.
-        - cin.ignore() being called before every getline() caused white space/enter issue - > next workout being skipped.
-        - Replaced it with cin.ignore() every time workoutcount == 0.
-
-- Refrance - [Before](https://imgur.com/a/4EvP0jg) VS [After](https://imgur.com/a/vvwaKLP)
-
-v - 0.6 
-
-+ Updated WorkoutReccomendation 
-  + Swapped the old module - 2d arrays -> vectors
-  + Created new menu inside the existing option - 3 levels selectable - 1) Beginner, 2) Moderate, 3) Intermedeiate
-    + Customized User input + New workouts 
-    + Used Map for better selection .add feature
-  
-+ Udpated WorkoutReccomendation Bug 
-  + Security 
-    + User validation - Checks only for user input 
-    + Used Enum to keep things more secure and manager 
-    + Used Struc to store map which includes a vector 
-
-v - 0.7
-+ Updated WorkoutLogger
-+ Swapped the old module - Arrays - Vectors and Maps 
-+ Implemented Unordered map to compare leaderboards between different workouts
-  + Up to User Dependent workout logger now 
-  + Uses WorkoutMap to store these workouts 
-  +  Passes these down and then compares with std::sort()
-        - bug was caused because of this
-     + Swapped it out with multimap. 
-
-+ Added full user input validation
-   + Ensures activity input is non-empty
-   + Confirms duration is a positive number
-     + Parses date using stoi()
-        Validates format YYYY-MM-DD and ensures date is before 2025
-v - 0.8 
-     + Updated Workout Assign to fit with WorkoutLogger 
-     + Now, after logging your workouts (with activity name, date, and duration), you can assign each workout to a specific day of the week.
-     + Uses shared_ptr<workout> to manage workout memory safely.
-       + Fixed White space bug again. 
-       + Updated main to fit the user update. 
-     
-===================================================
-
-Youtube Video here ------ > https://www.youtube.com/watch?v=IcDLU2BOBRM
-Link to V1 - https://github.com/complied/FitnessTracker
-===================================================
-
-
-Some Sources Used to complete this project!
-=======
-Some Sources Used to complete this project!
-
-https://www.geeksforgeeks.org/
-https://stackoverflow.com/
-https://cplusplus.com/doc/
-https://devdocs.io/cpp/
-https://www.instituteoflifestylemedicine.org/wp-content/uploads/2015/04/METValues.pdf [PDF link]
++ https://www.geeksforgeeks.org/
++ https://stackoverflow.com/
++ https://cplusplus.com/doc/
++ https://devdocs.io/cpp/
++ https://en.cppreference.com/w/
++ https://www.learncpp.com/
++ https://www.instituteoflifestylemedicine.org/wp-content/uploads/2015/04/METValues.pdf  (MET PDF)
